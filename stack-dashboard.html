@@ -426,6 +426,173 @@ button, select, input, .nav-tab, .chip, .btn-avatar, .btn-prof-primary, .btn-pro
   .co-card, .sdlc-card, .tools-card, .card { padding: 12px 10px; }
 }
 
+
+/* ==================== MOBILE MENU CONCEPT STYLING ==================== */
+.btn-menu-toggle {
+  display: none;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  align-items: center;
+  gap: 7px;
+  transition: all .15s;
+  min-height: 36px;
+}
+.btn-menu-toggle:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: #0d2442;
+}
+.btn-menu-toggle.active {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--cyan);
+}
+.menu-icon { font-size: 16px; line-height: 1; }
+.menu-label { font-size: 12px; }
+
+/* Mobile Menu Backdrop & Drawer */
+.mobile-menu-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.mobile-menu-backdrop.open {
+  display: block;
+  opacity: 1;
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: -330px;
+  width: 300px;
+  max-width: 86vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(7, 14, 28, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid var(--line);
+  box-shadow: -8px 0 36px rgba(0, 0, 0, 0.75);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 16px 20px;
+  transition: transform .28s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(0);
+}
+.mobile-menu-drawer.open {
+  transform: translateX(-330px);
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-menu-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mobile-menu-close {
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  color: var(--mute);
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.mobile-menu-close:hover {
+  color: #fff;
+  border-color: var(--cyan);
+  background: #0d2442;
+}
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 auto;
+}
+.mobile-menu-link {
+  background: var(--panel2);
+  border: 1px solid #142845;
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s;
+  min-height: 48px;
+  width: 100%;
+}
+.mobile-menu-link:hover {
+  border-color: var(--cyan);
+  background: #0d2442;
+  color: var(--cyan);
+}
+.mobile-menu-link.active {
+  background: linear-gradient(135deg, rgba(47, 123, 255, 0.22), rgba(34, 211, 238, 0.12));
+  border-color: var(--cyan);
+  color: #fff;
+  box-shadow: 0 0 14px rgba(34, 211, 238, 0.2);
+}
+.mob-link-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mob-icon { font-size: 16px; }
+.mob-text { font-size: 13px; font-weight: 600; }
+
+.mobile-menu-footer {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+/* Responsiveness media queries: Toggle between Desktop Nav Bar and Mobile Menu */
+@media (max-width: 768px) {
+  .btn-menu-toggle { display: inline-flex !important; }
+  .header-nav-bar { display: none !important; }
+}
+@media (min-width: 769px) {
+  .btn-menu-toggle { display: none !important; }
+  .mobile-menu-drawer { display: none !important; }
+  .mobile-menu-backdrop { display: none !important; }
+  .header-nav-bar { display: block !important; }
+}
+
 </style>
 </head>
 <body>
@@ -448,6 +615,10 @@ button, select, input, .nav-tab, .chip, .btn-avatar, .btn-prof-primary, .btn-pro
           <span class="pulse-dot">●</span> <span>Offline Ready</span>
           <span class="header-pill-sub">• 100% Client-Side</span>
         </div>
+        <button class="btn-menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false" onclick="toggleMobileMenu()">
+          <span class="menu-icon" id="menu-icon">☰</span>
+          <span class="menu-label">Menu</span>
+        </button>
       </div>
     </div>
   </div>
@@ -490,6 +661,69 @@ button, select, input, .nav-tab, .chip, .btn-avatar, .btn-prof-primary, .btn-pro
     </div>
   </div>
 </header>
+
+<!-- ==================== MOBILE MENU CONCEPT (DRAWER & BACKDROP) ==================== -->
+<div class="mobile-menu-backdrop" id="mobile-menu-backdrop" onclick="toggleMobileMenu(false)"></div>
+
+<aside class="mobile-menu-drawer" id="mobile-menu-drawer" aria-label="Mobile Navigation Menu">
+  <div class="mobile-menu-header">
+    <div class="mobile-menu-title">
+      <span style="color:var(--cyan)">⚡</span> Platform Menu
+    </div>
+    <button class="mobile-menu-close" onclick="toggleMobileMenu(false)" aria-label="Close menu">✕</button>
+  </div>
+
+  <nav class="mobile-menu-nav">
+    <button class="mobile-menu-link active" id="mob-tab-stacks" onclick="mobileSwitchTab('stacks')">
+      <div class="mob-link-left">
+        <span class="nav-seq">1</span>
+        <span class="mob-icon">⚡</span>
+        <span class="mob-text">Framework Stacks</span>
+      </div>
+      <span class="nav-badge">38</span>
+    </button>
+    <button class="mobile-menu-link" id="mob-tab-companies" onclick="mobileSwitchTab('companies')">
+      <div class="mob-link-left">
+        <span class="nav-seq">2</span>
+        <span class="mob-icon">🏢</span>
+        <span class="mob-text">Company Architectures</span>
+      </div>
+      <span class="nav-badge">108</span>
+    </button>
+    <button class="mobile-menu-link" id="mob-tab-sdlc" onclick="mobileSwitchTab('sdlc')">
+      <div class="mob-link-left">
+        <span class="nav-seq">3</span>
+        <span class="mob-icon">🔄</span>
+        <span class="mob-text">SDLC Methodologies</span>
+      </div>
+      <span class="nav-badge">45</span>
+    </button>
+    <button class="mobile-menu-link" id="mob-tab-tools" onclick="mobileSwitchTab('tools')">
+      <div class="mob-link-left">
+        <span class="nav-seq">4</span>
+        <span class="mob-icon">🛠️</span>
+        <span class="mob-text">Tech & Tools Directory</span>
+      </div>
+      <span class="nav-badge">423</span>
+    </button>
+    <button class="mobile-menu-link" id="mob-tab-about" onclick="mobileSwitchTab('about')">
+      <div class="mob-link-left">
+        <span class="nav-seq">5</span>
+        <span class="mob-icon">👤</span>
+        <span class="mob-text">About Me (Janarthanan)</span>
+      </div>
+      <span class="nav-badge" style="background:#0d3a58;color:var(--cyan)">Profile</span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu-footer">
+    <div style="font-size:11.5px;color:var(--mute);margin-bottom:6px">614 Total Architecture Records</div>
+    <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--cyan);background:#071426;padding:4px 10px;border-radius:12px;border:1px solid #142845">
+      <span class="pulse-dot">●</span> 100% Offline Client-Side Engine
+    </div>
+  </div>
+</aside>
+
 
 <div class="wrap">
   <!-- ==================== TAB 1: FRAMEWORK STACKS ==================== -->
@@ -1031,15 +1265,46 @@ const $ = id => document.getElementById(id);
 const TABS = ["stacks", "companies", "sdlc", "tools", "about"];
 let activeTab = "stacks";
 
+function toggleMobileMenu(force) {
+  const drawer = $("mobile-menu-drawer");
+  const backdrop = $("mobile-menu-backdrop");
+  const btn = $("menu-toggle");
+  const icon = $("menu-icon");
+  if (!drawer || !backdrop) return;
+  const shouldOpen = force !== undefined ? force : !drawer.classList.contains("open");
+  if (shouldOpen) {
+    drawer.classList.add("open");
+    backdrop.classList.add("open");
+    if (btn) { btn.classList.add("active"); btn.setAttribute("aria-expanded", "true"); }
+    if (icon) icon.textContent = "✕";
+    document.body.style.overflow = "hidden";
+  } else {
+    drawer.classList.remove("open");
+    backdrop.classList.remove("open");
+    if (btn) { btn.classList.remove("active"); btn.setAttribute("aria-expanded", "false"); }
+    if (icon) icon.textContent = "☰";
+    document.body.style.overflow = "";
+  }
+}
+
+function mobileSwitchTab(tab) {
+  switchTab(tab);
+  toggleMobileMenu(false);
+}
+
 function switchTab(tab) {
   if (!TABS.includes(tab)) tab = "stacks";
   activeTab = tab;
   TABS.forEach(t => {
     const tabEl = $("tab-" + t);
+    const mobTabEl = $("mob-tab-" + t);
     const viewEl = $("view-" + t);
     if (tabEl) {
       tabEl.classList.toggle("active", t === tab);
       tabEl.setAttribute("aria-selected", t === tab ? "true" : "false");
+    }
+    if (mobTabEl) {
+      mobTabEl.classList.toggle("active", t === tab);
     }
     if (viewEl) {
       viewEl.classList.toggle("active", t === tab);
@@ -2572,6 +2837,13 @@ window.addEventListener("hashchange", () => {
     switchTab(h);
   }
 });
+
+window.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    toggleMobileMenu(false);
+  }
+});
+
 </script>
 </body>
 </html>
